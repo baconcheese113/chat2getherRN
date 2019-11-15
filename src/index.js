@@ -24,6 +24,7 @@ const httpLink = createHttpLink({
   uri: `${API_URL}/graphql`,
   credentials: 'include',
 });
+
 const responseLink = new ApolloLink((operation, forward) => {
   return forward(operation).map(result => {
     const {headers} = operation.getContext().response;

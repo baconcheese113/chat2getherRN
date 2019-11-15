@@ -3,6 +3,13 @@ import {Text} from 'react-native';
 import UserCreate from './screens/UserCreate';
 import asyncCookie from './helpers/asyncCookie';
 import AsyncStorage from '@react-native-community/async-storage';
+import ChatHub from './screens/ChatHub';
+import MyUserProvider from './hooks/MyUserContext';
+import {EnabledWidgetsProvider} from './hooks/EnabledWidgetsContext';
+import SocketProvider from './hooks/SocketContext';
+import {LocalStreamProvider} from './hooks/LocalStreamContext';
+import {GET_ME} from './queries/queries';
+import {useApolloClient} from '@apollo/react-hooks';
 // import Header from './Header'
 // import UserCreate from './UserCreate'
 // import ChatHub from './ChatHub'
@@ -19,6 +26,8 @@ export default function App() {
   const [user, setUser] = React.useState();
   const [hasCookies, setHasCookies] = React.useState(false);
 
+  const client = useApolloClient();
+
   const storeUser = newUser => {
     // console.log(newUser);
     setUser(newUser);
@@ -29,6 +38,11 @@ export default function App() {
     console.log('finding cookies');
     const cookies = await AsyncStorage.getItem('cookies');
     console.log(cookies);
+    const {data} = await client.query({query: GET_ME});
+    if (data.me) {
+      setUser({...user, ...data.me});
+    }
+
     setHasCookies(!!cookies);
   }, [setHasCookies]);
 
@@ -39,8 +53,17 @@ export default function App() {
   }, []);
 
   if (hasCookies) {
-    console.info(`cookies is defined`);
-    return <Text>We have a user</Text>;
+    return (
+      <MyUserProvider user={user}>
+        <EnabledWidgetsProvider>
+          <SocketProvider>
+            <LocalStreamProvider>
+              <ChatHub />
+            </LocalStreamProvider>
+          </SocketProvider>
+        </EnabledWidgetsProvider>
+      </MyUserProvider>
+    );
   }
   return <UserCreate setUser={storeUser} />;
 }

@@ -36,6 +36,11 @@ export const FIND_ROOM = gql`
       lastActive
       isConnected
       isHost
+      visited {
+        id
+        gender
+        age
+      }
     }
   }
 `;

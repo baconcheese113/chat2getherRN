@@ -25,11 +25,12 @@
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
     "react": "16.9.0",
-    "react-native": "0.61.2",
+    "react-native": "0.61.4",
     "react-native-svg": "^9.12.0",
-    "react-native-webrtc": "^1.75.1",
+    "react-native-webrtc": "^1.75.2",
     "set-cookie-parser": "^2.4.0",
-    "styled-components": "^4.4.0"
+    "socket.io-client": "^2.3.0",
+    "styled-components": "^4.4.1"
   },
   "devDependencies": {
     "@babel/core": "7.6.4",
