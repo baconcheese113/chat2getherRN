@@ -36,14 +36,16 @@ export const LocalStreamProvider = props => {
     try {
       console.log(mediaDevices);
       // Have to stop tracks before switching on mobile
-      if (localStream) localStream.getTracks().forEach(track => track.stop());
+      // if (localStream) localStream.getTracks().forEach(track => track.stop());
+      if (localStream) localStream.stop();
+
       console.log('tracks stopped');
       const stream = await mediaDevices.getUserMedia(constraints);
       // If we have an existing connection
       console.log(stream);
       // TODO: pull in socketHelper
       if (remoteStream && videoSource) {
-        socketHelper.replaceTrack(stream);
+        socketHelper.replaceStream(stream);
       }
       setLocalStream(stream);
       // const audio = stream.getAudioTracks();

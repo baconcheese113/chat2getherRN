@@ -128,9 +128,9 @@ export default function ChatHub() {
   const renderBackground = () => {
     if (remoteStream) {
       return (
-        <View>
+        <View style={{backgroundColor: '#333', height: '100%'}}>
           {/* <VideoPlayer socketHelper={socketHelper} userId={user.id} roomId={roomId} /> */}
-          <VideoWindow videoType="remoteVideo" stream={localStream} />
+          <VideoWindow videoType="remoteVideo" stream={remoteStream} />
           <VideoWindow videoType="localVideo" stream={localStream} />
           {getChatNav()}
           {/* <TextChat user={user} socketHelper={socketHelper} room={roomId} /> */}
@@ -145,13 +145,13 @@ export default function ChatHub() {
     }
     if (!localStream) {
       return (
-        <View className="video-connecting">
+        <View>
           <Button onPress={() => requestCamera()} title="Share Video to Begin" />
         </View>
       );
     }
     return (
-      <View className="video-connecting" style={{backgroundColor: '#333', height: '100%'}}>
+      <View style={{backgroundColor: '#333', height: '100%'}}>
         {getChatNav()}
         <ConnectingText>{connectionMsg}</ConnectingText>
         <VideoWindow videoType="localVideo" stream={localStream} />

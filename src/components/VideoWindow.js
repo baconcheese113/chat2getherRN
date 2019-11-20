@@ -24,8 +24,8 @@ const VideoContainer = styled.View`
 export default function VideoWindow(props) {
   const {stream, videoType} = props;
 
-  const [top, setTop] = React.useState(50);
-  const [left, setLeft] = React.useState(50);
+  const [top, setTop] = React.useState(100);
+  const [left, setLeft] = React.useState(100);
 
   const videoRef = React.useRef(null);
   const containerRef = React.useRef(null);

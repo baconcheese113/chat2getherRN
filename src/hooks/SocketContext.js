@@ -26,7 +26,6 @@ export default function SocketProvider(props) {
 
   const {user, updateUser} = useMyUser();
   const client = useApolloClient();
-  console.log('SocketProvider render');
 
   const resetSocket = () => {
     console.log('reset state');
@@ -87,8 +86,8 @@ export default function SocketProvider(props) {
     const newSocketHelper = new SocketHelper();
     newSocketHelper.localStream = localStream;
     newSocketHelper.onNextRoom = onNextRoom;
-    newSocketHelper.onTrack = async e => {
-      console.log('ontrack', e);
+    newSocketHelper.onAddStream = async e => {
+      console.log('onAddStream', e);
       clearTimeout(probeTimer.current);
       const {data, loading, error} = await client.mutate({
         mutation: UPDATE_USER,
@@ -98,9 +97,9 @@ export default function SocketProvider(props) {
       if (loading) console.log(loading);
       console.info('Updating user from SocketContext1');
       const updatedUser = await updateUser(data.updateUser);
-      console.log('ontrack dump', updatedUser, room.current, e.streams[0]);
+      console.log('ontrack dump', updatedUser, room.current, e.stream);
       newSocketHelper.emit('identity', {user: updatedUser, roomId: room.current});
-      // setRemoteStream(e.streams[0])
+      // setRemoteStream(e.stream)
       setTimeout(() => {
         console.log(`other user is ${otherUser}`);
         let hackyUser = null;
@@ -111,7 +110,7 @@ export default function SocketProvider(props) {
         });
         console.log(`hackyUser is ${hackyUser}`);
         if (hackyUser) {
-          setRemoteStream(e.streams[0]);
+          setRemoteStream(e.stream);
         }
       }, 5000);
     };

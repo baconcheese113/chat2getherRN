@@ -1,4 +1,6 @@
 import io from 'socket.io-client';
+import {RTCPeerConnection, RTCSessionDescription, RTCIceCandidate} from 'react-native-webrtc';
+import {API_URL} from 'react-native-dotenv';
 
 export default class SocketHelper {
   socket;
@@ -10,7 +12,7 @@ export default class SocketHelper {
   roomId;
 
   constructor() {
-    this.socket = io();
+    this.socket = io(API_URL);
     // this.socket.emit('create or join');
     this.pc = null;
     this.localStream = null;
@@ -28,7 +30,7 @@ export default class SocketHelper {
 
   // Functions to overwrite
 
-  onTrack = e => e;
+  onAddStream = e => e;
 
   onIceConnectionStateChange = e => e;
 
@@ -54,6 +56,7 @@ export default class SocketHelper {
    *
    * Candidates are sent by both users throughout process.
    */
+
   initializeEvents = () => {
     this.socket.on('created', () => {
       console.log('created');
@@ -98,10 +101,10 @@ export default class SocketHelper {
     const createPC = () => {
       this.pc = new RTCPeerConnection(this.iceServers);
       this.pc.onicecandidate = onIceCandidate;
-      this.pc.ontrack = e => {
-        console.log('ontrack', e);
+      this.pc.onaddstream = e => {
+        console.log('onaddstream', e);
         this.updateConnectionMsg('Connection complete');
-        this.onTrack(e);
+        this.onAddStream(e);
       };
       this.pc.oniceconnectionstatechange = e => {
         this.onIceConnectionStateChange(e);
@@ -112,14 +115,14 @@ export default class SocketHelper {
       };
       // if (this.pc.addStream) {
       //   console.log('addStream')
-      //   this.pc.addStream(this.localStream)
+      this.pc.addStream(this.localStream);
       // } else {
       console.log('addTracks');
       // Recommended implementation since addStream is obsolete
-      this.localStream.getTracks().forEach(track => {
-        console.log('track gotten', track);
-        this.pc.addTrack(track, this.localStream);
-      });
+      // this.localStream.getTracks().forEach(track => {
+      //   console.log('track gotten', track);
+      //   this.pc.addTrack(track, this.localStream);
+      // });
       // }
     };
 
@@ -181,19 +184,23 @@ export default class SocketHelper {
 
     // Answer emitted by 2nd user, only 1st user executes this which triggers ontrack
     this.socket.on('answer', e => {
-      console.log('on answer');
+      console.log('on answer', e);
       this.pc.setRemoteDescription(new RTCSessionDescription(e));
     });
 
     // Both users execute this when a candidate is chosen
     this.socket.on('candidate', e => {
       console.log('on candidate');
-      this.pc.addIceCandidate(
-        new RTCIceCandidate({
+      try {
+        const iceCandidate = new RTCIceCandidate({
           sdpMLineIndex: e.label,
+          sdpMid: e.id,
           candidate: e.candidate,
-        }),
-      );
+        });
+        this.pc.addIceCandidate(iceCandidate);
+      } catch (err) {
+        console.log('Error adding iceCandidate', err);
+      }
     });
 
     // Other non-setup functions
@@ -229,5 +236,19 @@ export default class SocketHelper {
       console.log('found audio sender', sender);
       await sender.replaceTrack(audioTracks[0]);
     }
+  }
+  async replaceStream(newStream) {
+    console.log('switching stream');
+    this.pc.addStream(newStream);
+    // if (videoTracks && videoTracks[0]) {
+    //   const sender = this.pc.getSenders().find(s => s.track.kind === videoTracks[0].kind);
+    //   console.log('found video sender', sender);
+    //   await sender.replaceTrack(videoTracks[0]);
+    // }
+    // if (audioTracks && audioTracks[0]) {
+    //   const sender = this.pc.getSenders().find(s => s.track.kind === audioTracks[0].kind);
+    //   console.log('found audio sender', sender);
+    //   await sender.replaceTrack(audioTracks[0]);
+    // }
   }
 }
