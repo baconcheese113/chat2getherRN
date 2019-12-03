@@ -184,7 +184,7 @@ export default class SocketHelper {
 
     // Answer emitted by 2nd user, only 1st user executes this which triggers ontrack
     this.socket.on('answer', e => {
-      console.log('on answer', e);
+      console.log('on answer');
       this.pc.setRemoteDescription(new RTCSessionDescription(e));
     });
 
@@ -192,12 +192,13 @@ export default class SocketHelper {
     this.socket.on('candidate', e => {
       console.log('on candidate');
       try {
-        const iceCandidate = new RTCIceCandidate({
-          sdpMLineIndex: e.label,
-          sdpMid: e.id,
-          candidate: e.candidate,
-        });
-        this.pc.addIceCandidate(iceCandidate);
+        this.pc.addIceCandidate(
+          new RTCIceCandidate({
+            sdpMLineIndex: e.label,
+            sdpMid: e.id,
+            candidate: e.candidate,
+          }),
+        );
       } catch (err) {
         console.log('Error adding iceCandidate', err);
       }
