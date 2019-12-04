@@ -33,7 +33,7 @@ const SubmitButton = styled.Button`
   color: #fff;
   padding: 5px 10px;
   font-size: 20px;
-  letter-spacing: 1.5px;
+  letter-spacing: 15px;
   /* margin-top: 1rem; */
 `;
 const Modal = styled.View`
@@ -55,8 +55,8 @@ const Modal = styled.View`
   } */
 `;
 
-const UserCreateForm = props => {
-  const {error, handleSubmit} = props;
+export default function UserCreateForm(props) {
+  const {error, onSubmit} = props;
   const [gender, setGender] = useState(0);
   const [lookingFor, setLookingFor] = useState(
     GENDERS.map(x => {
@@ -86,9 +86,9 @@ const UserCreateForm = props => {
     }
   };
 
-  const onSubmit = e => {
+  const handleSubmit = e => {
     setIsLoading(true);
-    handleSubmit(e, {
+    onSubmit(e, {
       gender: GENDERS[gender],
       lookingFor,
       age,
@@ -108,7 +108,7 @@ const UserCreateForm = props => {
       </Row>
       <Row>
         <InputLabel>I want to chat with</InputLabel>
-        <ChoicePicker selected={lookingFor} change={setLookingFor} choices={GENDERS} height="1.5rem" width="100%" />
+        <ChoicePicker selected={lookingFor} change={setLookingFor} choices={GENDERS} height="15px" width="100%" />
       </Row>
       <Row>
         <InputLabel>My Age</InputLabel>
@@ -120,7 +120,7 @@ const UserCreateForm = props => {
       </Row>
       <Row>
         <InputLabel>My Audio Preference</InputLabel>
-        <ChoiceSlider cur={audioPref} change={setAudioPref} choices={AUDIO_PREFS} height="1.5rem" width="100%" />
+        <ChoiceSlider cur={audioPref} change={setAudioPref} choices={AUDIO_PREFS} height="15px" width="100%" />
       </Row>
       <Row>
         <InputLabel>Preferences I&apos;ll do</InputLabel>
@@ -128,14 +128,12 @@ const UserCreateForm = props => {
           selected={accAudioPrefs}
           change={setAccAudioPrefs}
           choices={AUDIO_PREFS}
-          height="1.5rem"
+          height="15px"
           width="100%"
-          fontSize="1.1rem"
+          fontSize="11px"
         />
       </Row>
-      <SubmitButton title="Start" onPress={onSubmit} />
+      <SubmitButton title="Start" onPress={handleSubmit} />
     </StyledForm>
   );
 };
-
-export default UserCreateForm;

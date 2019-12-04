@@ -6,9 +6,9 @@ import {faEllipsisV} from '@fortawesome/free-solid-svg-icons';
 import VideoWindow from '../components/VideoWindow';
 // import TextChat from './TextChat'
 // import Settings from './Settings'
-// import InCallNavBar from './InCallNavBar'
+import InCallNavBar from '../components/InCallNavBar'
 // import VideoPlayer from './VideoPlayer'
-// import UserUpdateForm from './UserUpdateForm'
+import UserUpdateForm from '../components/UserUpdateForm'
 // import Countdown from './Countdown'
 // import ProfileCard from './ProfileCard'
 // import MatchHistory from './MatchHistory'
@@ -22,7 +22,8 @@ import {useMyUser} from '../hooks/MyUserContext';
 const StyledChatHub = styled.View`
   /* height: 100vh; // shitty, but temp fix for firefox */
   /* height: -webkit-fill-available; */
-  display: flex;
+  /* display: flex; */
+  flex: 1;
   flex-direction: ${props => props.flowDirection};
   justify-content: center;
   overflow: hidden;
@@ -80,7 +81,7 @@ export default function ChatHub() {
 
   const getChatNav = () => {
     return (
-      <View>
+      <View style={{position: 'absolute', right: 20, top: 20, flexDirection: 'row', alignItems: 'center'}}>
         <NextMatchButton onPress={handleNextMatch} disabled={!canNextMatch} title="Next Match">
           {/* <NextMatchSVG width="100%" height="100%" fill="transparent">
             <NextMatchRect disabled={!canNextMatch} height="100%" width="100%" rx="15px" />
@@ -151,12 +152,12 @@ export default function ChatHub() {
       );
     }
     return (
-      <View style={{backgroundColor: '#333', height: '100%'}}>
+      <View style={{backgroundColor: '#333', height: '100%', justifyContent: 'space-evenly', alignItems: 'center'}}>
         {getChatNav()}
-        <ConnectingText>{connectionMsg}</ConnectingText>
+        <ConnectingText style={{color: '#fff'}}>{connectionMsg}</ConnectingText>
         <VideoWindow videoType="localVideo" stream={localStream} />
         {/* {matchCountdown > 0 && <View className="countdown">{matchCountdown}</View>} */}
-        {/* {enabledWidgets.updatePref && (
+        {enabledWidgets.updatePref && (
             <UserUpdateForm
               user={user}
               setUser={newUser => {
@@ -164,13 +165,13 @@ export default function ChatHub() {
                 if (roomId) nextMatch();
               }}
             />
-          )} */}
+          )}
         {/* {enabledWidgets.stats && <Stats />} */}
         {/* {enabledWidgets.matches && <MatchHistory users={user.visited} />} */}
-        {/* <InCallNavBar
+        <InCallNavBar
             resetState={resetSocket}
             buttons={{stop: true, mic: true, speaker: true, matches: true, stats: true, updatePref: true}}
-          /> */}
+          />
       </View>
     );
   };

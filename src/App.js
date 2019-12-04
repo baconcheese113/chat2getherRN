@@ -10,6 +10,7 @@ import SocketProvider from './hooks/SocketContext';
 import {LocalStreamProvider} from './hooks/LocalStreamContext';
 import {GET_ME} from './queries/queries';
 import {useApolloClient} from '@apollo/react-hooks';
+import { NotifyProvider } from './hooks/NotifyContext';
 // import Header from './Header'
 // import UserCreate from './UserCreate'
 // import ChatHub from './ChatHub'
@@ -58,7 +59,9 @@ export default function App() {
         <EnabledWidgetsProvider>
           <SocketProvider>
             <LocalStreamProvider>
-              <ChatHub />
+              <NotifyProvider>
+                <ChatHub />
+              </NotifyProvider>
             </LocalStreamProvider>
           </SocketProvider>
         </EnabledWidgetsProvider>

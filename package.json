@@ -26,6 +26,7 @@
     "graphql-tag": "^2.10.1",
     "react": "16.9.0",
     "react-native": "0.61.5",
+    "react-native-color-matrix-image-filters": "^5.2.2",
     "react-native-draggable": "^3.0.0",
     "react-native-svg": "^9.13.3",
     "react-native-webrtc": "^1.75.2",

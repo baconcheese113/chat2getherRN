@@ -125,7 +125,7 @@ export default function UserCreate(props) {
         </UserCreateStats>
       </IntroSection>
 
-      <UserCreateForm isSubmitting={isSubmitting} error={errorMsg} handleSubmit={handleSubmit} />
+      <UserCreateForm isSubmitting={isSubmitting} error={errorMsg} onSubmit={handleSubmit} />
 
       <Text>*You are paired strictly on your preferences and type of sharing (video, audio, text)</Text>
     </Main>
