@@ -12,12 +12,13 @@ import UserUpdateForm from '../components/UserUpdateForm'
 // import Countdown from './Countdown'
 // import ProfileCard from './ProfileCard'
 // import MatchHistory from './MatchHistory'
-// import Stats from './Stats'
+// import Stats from '../components/Stats'
 // import AirPlaneDing from '../assets/air-plane-ding.mp3'
 import {useLocalStream} from '../hooks/LocalStreamContext';
 import {useEnabledWidgets} from '../hooks/EnabledWidgetsContext';
 import {useSocket} from '../hooks/SocketContext';
 import {useMyUser} from '../hooks/MyUserContext';
+import StackGraph from '../components/stats/StackGraph';
 
 const StyledChatHub = styled.View`
   /* height: 100vh; // shitty, but temp fix for firefox */
@@ -166,7 +167,7 @@ export default function ChatHub() {
               }}
             />
           )}
-        {/* {enabledWidgets.stats && <Stats />} */}
+        {enabledWidgets.stats && <StackGraph />}
         {/* {enabledWidgets.matches && <MatchHistory users={user.visited} />} */}
         <InCallNavBar
             resetState={resetSocket}
