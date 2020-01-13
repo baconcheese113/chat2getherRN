@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const GET_USERS = gql`
-  query Users {
-    users {
+  query Users($where: UserWhereInput) {
+    users(where: $where) {
       id
       gender
       lookingFor {
