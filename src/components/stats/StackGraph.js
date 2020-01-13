@@ -120,7 +120,7 @@ export default function StackGraph() {
       width={Dimensions.get('window').width}
       theme={VictoryTheme.material}
       minDomain={{y: 0}}
-      scale={{x: "time"}}
+      scale={{x: 'time'}}
       style={{grid: {backgroundColor: 'white'}}}>
       <VictoryLegend
         x={40}

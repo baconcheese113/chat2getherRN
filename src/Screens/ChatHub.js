@@ -6,13 +6,12 @@ import {faEllipsisV} from '@fortawesome/free-solid-svg-icons';
 import VideoWindow from '../components/VideoWindow';
 // import TextChat from './TextChat'
 // import Settings from './Settings'
-import InCallNavBar from '../components/InCallNavBar'
+import InCallNavBar from '../components/InCallNavBar';
 // import VideoPlayer from './VideoPlayer'
-import UserUpdateForm from '../components/UserUpdateForm'
+import UserUpdateForm from '../components/UserUpdateForm';
 // import Countdown from './Countdown'
 // import ProfileCard from './ProfileCard'
-// import MatchHistory from './MatchHistory'
-// import Stats from '../components/Stats'
+import MatchHistory from '../components/MatchHistory';
 // import AirPlaneDing from '../assets/air-plane-ding.mp3'
 import {useLocalStream} from '../hooks/LocalStreamContext';
 import {useEnabledWidgets} from '../hooks/EnabledWidgetsContext';
@@ -159,20 +158,20 @@ export default function ChatHub() {
         <VideoWindow videoType="localVideo" stream={localStream} />
         {/* {matchCountdown > 0 && <View className="countdown">{matchCountdown}</View>} */}
         {enabledWidgets.updatePref && (
-            <UserUpdateForm
-              user={user}
-              setUser={newUser => {
-                updateUser(newUser);
-                if (roomId) nextMatch();
-              }}
-            />
-          )}
-        {enabledWidgets.stats && <StackGraph />}
-        {/* {enabledWidgets.matches && <MatchHistory users={user.visited} />} */}
-        <InCallNavBar
-            resetState={resetSocket}
-            buttons={{stop: true, mic: true, speaker: true, matches: true, stats: true, updatePref: true}}
+          <UserUpdateForm
+            user={user}
+            setUser={newUser => {
+              updateUser(newUser);
+              if (roomId) nextMatch();
+            }}
           />
+        )}
+        {enabledWidgets.stats && <StackGraph />}
+        {enabledWidgets.matches && <MatchHistory users={user.visited} />}
+        <InCallNavBar
+          resetState={resetSocket}
+          buttons={{stop: true, mic: true, speaker: true, matches: true, stats: true, updatePref: true}}
+        />
       </View>
     );
   };
