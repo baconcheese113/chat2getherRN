@@ -28,7 +28,7 @@ const IntroSection = styled.View`
   flex-direction: column;
 `;
 const TitleFeature = styled.Text`
-  font-size: 20;
+  font-size: 20px;
   margin: 20px auto;
   text-align: left;
   width: 70%;
@@ -47,7 +47,7 @@ const UserCreateNumbers = styled.View`
   justify-content: space-between;
   background-color: #555;
   border: 3px dashed #9932cc;
-  border-radius: 20;
+  border-radius: 20px;
 `;
 
 // const MoreFeatures = styled.button`

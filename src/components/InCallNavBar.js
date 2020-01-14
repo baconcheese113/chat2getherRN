@@ -1,11 +1,25 @@
-import React from 'react'
-import {View, Text} from 'react-native'
-import styled from 'styled-components'
-import ToggleButton from './ToggleButton'
-import { useEnabledWidgets } from '../hooks/EnabledWidgetsContext'
-import { useLocalStream } from '../hooks/LocalStreamContext'
-import { useNotify } from '../hooks/NotifyContext'
-import {faStop, faMicrophone, faMicrophoneSlash, faVolumeMute, faVolumeUp, faCamera, faUserAlt, faStopwatch, faComment, faUserEdit, faChartArea, faUsers} from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
+import {View, Text} from 'react-native';
+import styled from 'styled-components';
+import ToggleButton from './ToggleButton';
+import {useEnabledWidgets} from '../hooks/EnabledWidgetsContext';
+import {useLocalStream} from '../hooks/LocalStreamContext';
+import {useNotify} from '../hooks/NotifyContext';
+import {
+  faStop,
+  faMicrophone,
+  faMicrophoneSlash,
+  faVolumeMute,
+  faVolumeUp,
+  faCamera,
+  faUserAlt,
+  faStopwatch,
+  faComment,
+  faUserEdit,
+  faChartArea,
+  faUsers,
+} from '@fortawesome/free-solid-svg-icons';
+import {faYoutube} from '@fortawesome/free-brands-svg-icons';
 
 const StyledNavBar = styled.View`
   position: absolute;
@@ -15,23 +29,23 @@ const StyledNavBar = styled.View`
   flex-direction: row;
   font-size: 16px;
   padding: 5px;
-`
+`;
 const LeftAligned = styled.View`
   flex-direction: row;
   flex: 1;
-`
+`;
 const RightAligned = styled.View`
   flex-direction: row;
   justify-content: flex-end;
   margin-right: 5px;
-`
+`;
 
 export default function InCallNavBar(props) {
-  const { resetState, buttons } = props
+  const {resetState, buttons} = props;
 
-  const { localStream, requestCamera } = useLocalStream()
-  const { videoNotify, countdownNotify, textNotify } = useNotify()
-  const { enabledWidgets, featureToggle, chatSettings, setChatSettings } = useEnabledWidgets()
+  const {localStream, requestCamera} = useLocalStream();
+  const {videoNotify, countdownNotify, textNotify} = useNotify();
+  const {enabledWidgets, featureToggle, chatSettings, setChatSettings} = useEnabledWidgets();
 
   const flipCamera = async e => {
     // e.stopPropagation()
@@ -48,10 +62,10 @@ export default function InCallNavBar(props) {
     // } catch (err) {
     //   console.error(err)
     // }
-  }
+  };
   // return <View><Text>Hello</Text></View>
 
-  if (!enabledWidgets) return <View></View>
+  if (!enabledWidgets) return <View></View>;
 
   return (
     <StyledNavBar>
@@ -77,7 +91,7 @@ export default function InCallNavBar(props) {
         {buttons.speaker && (
           <ToggleButton
             iconClass={chatSettings.speakerMute ? faVolumeMute : faVolumeUp}
-            onPress={() => setChatSettings({ ...chatSettings, speakerMute: !chatSettings.speakerMute })}
+            onPress={() => setChatSettings({...chatSettings, speakerMute: !chatSettings.speakerMute})}
             active={chatSettings.speakerMute ? 0 : 1}
           />
         )}
@@ -109,7 +123,7 @@ export default function InCallNavBar(props) {
         )}
         {buttons.video && (
           <ToggleButton
-            iconClass="fab fa-youtube"
+            iconClass={faYoutube}
             onPress={() => featureToggle('video')}
             active={enabledWidgets.video ? 1 : 0}
             notification={videoNotify ? 1 : 0}
@@ -138,5 +152,5 @@ export default function InCallNavBar(props) {
         )}
       </RightAligned>
     </StyledNavBar>
-  )
+  );
 }

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faEllipsisV} from '@fortawesome/free-solid-svg-icons';
 import VideoWindow from '../components/VideoWindow';
-// import TextChat from './TextChat'
+import TextChat from '../components/TextChat';
 // import Settings from './Settings'
 import InCallNavBar from '../components/InCallNavBar';
 // import VideoPlayer from './VideoPlayer'
@@ -134,13 +134,13 @@ export default function ChatHub() {
           <VideoWindow videoType="remoteVideo" stream={remoteStream} />
           <VideoWindow videoType="localVideo" stream={localStream} />
           {getChatNav()}
-          {/* <TextChat user={user} socketHelper={socketHelper} room={roomId} /> */}
+          <TextChat user={user} socketHelper={socketHelper} room={roomId} />
           {/* <ProfileCard user={otherUser} /> */}
           {/* <Countdown socketHelper={socketHelper} myUserId={user.id} roomId={roomId} /> */}
-          {/* <InCallNavBar
+          <InCallNavBar
             resetState={resetSocket}
-            buttons={{stop: true, mic: true, speaker: true, profile: true, countdown: true, chat: true, video: true}}
-          /> */}
+            buttons={{stop: true, mic: true, speaker: true, profile: false, countdown: false, chat: true, video: false}}
+          />
         </View>
       );
     }
