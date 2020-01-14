@@ -10,7 +10,7 @@ import InCallNavBar from '../components/InCallNavBar';
 // import VideoPlayer from './VideoPlayer'
 import UserUpdateForm from '../components/UserUpdateForm';
 // import Countdown from './Countdown'
-// import ProfileCard from './ProfileCard'
+import ProfileCard from '../components/ProfileCard';
 import MatchHistory from '../components/MatchHistory';
 // import AirPlaneDing from '../assets/air-plane-ding.mp3'
 import {useLocalStream} from '../hooks/LocalStreamContext';
@@ -135,11 +135,11 @@ export default function ChatHub() {
           <VideoWindow videoType="localVideo" stream={localStream} />
           {getChatNav()}
           <TextChat user={user} socketHelper={socketHelper} room={roomId} />
-          {/* <ProfileCard user={otherUser} /> */}
+          <ProfileCard user={otherUser} />
           {/* <Countdown socketHelper={socketHelper} myUserId={user.id} roomId={roomId} /> */}
           <InCallNavBar
             resetState={resetSocket}
-            buttons={{stop: true, mic: true, speaker: true, profile: false, countdown: false, chat: true, video: false}}
+            buttons={{stop: true, mic: true, speaker: true, profile: true, countdown: false, chat: true, video: false}}
           />
         </View>
       );
