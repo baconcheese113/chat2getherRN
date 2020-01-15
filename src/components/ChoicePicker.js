@@ -14,15 +14,15 @@ const StyledChoicePicker = styled.View`
   align-items: center;
   position: relative;
   border: 2px solid ${props => props.theme.colorPrimary};
-  /* font-size: ${props => props.fontSize || '16px'}; */
+  /* font-size: ${props => props.fontSize || '16'}px; */
   /* cursor: pointer; */
 `;
 
 const Option = styled.TouchableOpacity`
   border: none;
   border-radius: 0;
-  /* ${props => (props.optionStart ? 'border-radius: 30 0 0 30;' : '')} */
-  /* ${props => (props.optionEnd ? 'border-radius: 0 30 30 0;' : '')} */
+  /* ${props => (props.optionStart ? 'border-radius: 30px 0 0 30px;' : '')} */
+  /* ${props => (props.optionEnd ? 'border-radius: 0 30px 30px 0;' : '')} */
   /* width: 100%; */
   flex: 1;
   height: 100%;

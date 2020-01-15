@@ -12,7 +12,7 @@ const StyledChoiceSlider = styled.View`
   justify-content: space-around;
   position: relative;
   border: 2px solid ${props => props.theme.colorPrimary};
-  /* font-size: ${props => props.fontSize || 'inherit'}; */
+  /* font-size: ${props => `${props.fontSize}px` || 'inherit'}; */
   /* cursor: pointer; */
 `;
 

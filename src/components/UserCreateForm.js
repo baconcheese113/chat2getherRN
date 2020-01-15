@@ -17,7 +17,7 @@ const Row = styled.View`
 `;
 const InputLabel = styled.Text`
   /* display: inline-block; */
-  font-size: ${({fontSize}) => fontSize || 15};
+  font-size: ${({fontSize}) => fontSize || 15}px;
   /* margin-right: 1rem; */
   text-transform: uppercase;
   color: ${props => props.theme.colorPrimaryLight};
@@ -136,4 +136,4 @@ export default function UserCreateForm(props) {
       <SubmitButton title="Start" onPress={handleSubmit} />
     </StyledForm>
   );
-};
+}
