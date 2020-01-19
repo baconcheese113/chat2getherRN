@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import ChoiceSlider from './ChoiceSlider';
 import NumberSlider from './NumberSlider';
@@ -57,22 +57,22 @@ const Modal = styled.View`
 
 export default function UserCreateForm(props) {
   const {error, onSubmit} = props;
-  const [gender, setGender] = useState(0);
-  const [lookingFor, setLookingFor] = useState(
+  const [gender, setGender] = React.useState(0);
+  const [lookingFor, setLookingFor] = React.useState(
     GENDERS.map(x => {
       return {name: x};
     }),
   );
-  const [age, setAge] = useState(30);
-  const [minAge, setMinAge] = useState(18);
-  const [maxAge, setMaxAge] = useState(90);
-  const [audioPref, setAudioPref] = useState(0);
-  const [accAudioPrefs, setAccAudioPrefs] = useState(
+  const [age, setAge] = React.useState(30);
+  const [minAge, setMinAge] = React.useState(18);
+  const [maxAge, setMaxAge] = React.useState(90);
+  const [audioPref, setAudioPref] = React.useState(0);
+  const [accAudioPrefs, setAccAudioPrefs] = React.useState(
     AUDIO_PREFS.map(x => {
       return {name: x};
     }),
   );
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const changeNumbers = newArr => {
     if (newArr.length < 1) {

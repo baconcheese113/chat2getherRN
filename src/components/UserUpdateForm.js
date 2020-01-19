@@ -28,7 +28,7 @@ const ScrollContent = styled.ScrollView`
 `
 const InputLabel = styled.Text`
   /* display: inline-block; */
-  font-size: ${({ fontSize }) => fontSize || 15};
+  font-size: ${({ fontSize }) => fontSize || 15}px;
   margin-right: 10px;
   text-transform: uppercase;
   color: ${props => props.theme.colorPrimaryLight};

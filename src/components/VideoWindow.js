@@ -13,10 +13,7 @@ const LocalVideoContainer = styled.View`
   border: 2px solid #555;
 `;
 const RemoteVideoContainer = styled.View`
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  flex: 1;
 `;
 
 export default function VideoWindow(props) {
@@ -41,7 +38,7 @@ export default function VideoWindow(props) {
 
   if (videoType === 'localVideo') {
     return (
-      <Draggable x={30} y={80} minX={0} minY={20} maxX={300} maxY={500}>
+      <Draggable x={30} y={80} minX={0} minY={20} maxX={300} maxY={500} animatedViewProps={{zIndex: 0}}>
         <LocalVideoContainer>{getVideo()}</LocalVideoContainer>
       </Draggable>
     );
