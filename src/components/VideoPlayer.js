@@ -3,11 +3,12 @@ import {Dimensions} from 'react-native';
 import styled from 'styled-components';
 import Video from 'react-native-video';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faSearch} from '@fortawesome/free-solid-svg-icons';
+import {EntrancePortal} from '@cala/react-portal';
 import HtmlParse from '../helpers/htmlParse';
-import VideoGrid from './VideoGrid';
 import {useNotify} from '../hooks/NotifyContext';
 import {useEnabledWidgets} from '../hooks/EnabledWidgetsContext';
-import {faSearch} from '@fortawesome/free-solid-svg-icons';
+import VideoGrid from './VideoGrid';
 
 const StyledVideoPlayer = styled.View`
   background-color: ${props => props.theme.colorGreyDark3};
@@ -31,6 +32,7 @@ const EmptyStateText = styled.Text`
 `;
 const SearchButton = styled.TouchableOpacity`
   position: absolute;
+  top: 10px;
   left: 10px;
   box-shadow: 0 0 4px;
   padding: 12px;
@@ -41,6 +43,7 @@ const SearchButton = styled.TouchableOpacity`
 `;
 const SyncButton = styled.TouchableOpacity`
   position: absolute;
+  top: 10px;
   left: 60px;
   box-shadow: 0 0 4px;
   border-width: 1px;
@@ -246,7 +249,7 @@ export default function VideoPlayer(props) {
   const testUrl = 'https://ia800501.us.archive.org/10/items/BigBuckBunny_310/big_buck_bunny_640_512kb.mp4';
   return (
     <>
-      <StyledVideoPlayer coords={coords} active={active}>
+      <StyledVideoPlayer coords={coords} active={active} pointerEvents="box-none">
         <SearchButton onPress={() => setIsShown(true)}>
           <FontAwesomeIcon icon={faSearch} color="#fff" />
         </SearchButton>
@@ -279,13 +282,15 @@ export default function VideoPlayer(props) {
           )}
         </VideoContainer>
       </StyledVideoPlayer>
-      <VideoGrid
-        videos={parser.videos}
-        onSubmitSearch={onSubmitSearch}
-        isShown={active && isShown}
-        setIsShown={setIsShown}
-        selectVideo={selectVideo}
-      />
+      <EntrancePortal name="fullscreen">
+        <VideoGrid
+          videos={parser.videos}
+          onSubmitSearch={onSubmitSearch}
+          isShown={active && isShown}
+          setIsShown={setIsShown}
+          selectVideo={selectVideo}
+        />
+      </EntrancePortal>
     </>
   );
 }

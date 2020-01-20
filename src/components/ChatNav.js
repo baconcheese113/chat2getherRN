@@ -1,15 +1,15 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faEllipsisV} from '@fortawesome/free-solid-svg-icons';
-import { useEnabledWidgets } from '../hooks/EnabledWidgetsContext';
-import { useLocalStream } from '../hooks/LocalStreamContext';
-import { useSocket } from '../hooks/SocketContext';
+import {useEnabledWidgets} from '../hooks/EnabledWidgetsContext';
+import {useLocalStream} from '../hooks/LocalStreamContext';
+import {useSocket} from '../hooks/SocketContext';
 
 const StyledChatNav = styled.View`
   position: absolute;
-  right: 20px;
-  top: 20px;
+  right: 10px;
+  top: 10px;
   flex-direction: row;
   align-items: center;
 `;
@@ -51,7 +51,7 @@ const SettingsButton = styled.TouchableOpacity`
 
 export default function ChatNav(props) {
   const {localStream} = useLocalStream();
-  const {enabledWidgets, setEnabledWidgets} = useEnabledWidgets()
+  const {enabledWidgets, setEnabledWidgets} = useEnabledWidgets();
   const {nextMatch, canNextMatch} = useSocket();
 
   const handleNextMatch = e => {
@@ -59,17 +59,17 @@ export default function ChatNav(props) {
     if (localStream && canNextMatch) nextMatch(localStream);
   };
 
-    return (
-      <StyledChatNav>
-        <NextMatchButton onPress={handleNextMatch} disabled={!canNextMatch}>
-          {/* <NextMatchSVG width="100%" height="100%" fill="transparent">
+  return (
+    <StyledChatNav>
+      <NextMatchButton onPress={handleNextMatch} disabled={!canNextMatch}>
+        {/* <NextMatchSVG width="100%" height="100%" fill="transparent">
             <NextMatchRect disabled={!canNextMatch} height="100%" width="100%" rx="15px" />
           </NextMatchSVG> */}
-          <NextMatchText>Next Match</NextMatchText>
-        </NextMatchButton>
-        <SettingsButton onPress={() => setEnabledWidgets({...enabledWidgets, menu: true})}>
-          <FontAwesomeIcon icon={faEllipsisV} color="#fff" />
-        </SettingsButton>
-      </StyledChatNav>
-    );
+        <NextMatchText>Next Match</NextMatchText>
+      </NextMatchButton>
+      <SettingsButton onPress={() => setEnabledWidgets({...enabledWidgets, menu: true})}>
+        <FontAwesomeIcon icon={faEllipsisV} color="#fff" />
+      </SettingsButton>
+    </StyledChatNav>
+  );
 }

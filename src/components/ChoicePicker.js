@@ -29,10 +29,10 @@ const Option = styled.TouchableOpacity`
   padding: ${({height}) => height || '10px'} 0;
   margin: 0;
   opacity: 0.8;
-  z-index: 10;
   color: ${props => (props.active ? 'white' : props.theme.colorPrimaryLight)};
   ${props => (props.active ? `background-color: ${props.theme.colorPrimary};` : '')} /* transition: all .6s; */
 `;
+// z-index: 10;
 
 const ChoicePicker = props => {
   const {selected, change, choices} = props;

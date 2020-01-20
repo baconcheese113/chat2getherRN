@@ -43,5 +43,5 @@ export default function VideoWindow(props) {
       </Draggable>
     );
   }
-  return <RemoteVideoContainer>{getVideo()}</RemoteVideoContainer>;
+  return <RemoteVideoContainer pointerEvents="box-none">{getVideo()}</RemoteVideoContainer>;
 }

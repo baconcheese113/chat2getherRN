@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, Button, TouchableOpacity} from 'react-native';
 import styled from 'styled-components';
+import {ExitPortal} from '@cala/react-portal';
 import VideoWindow from '../components/VideoWindow';
 import TextChat from '../components/TextChat';
 // import Settings from './Settings'
@@ -19,18 +20,16 @@ import {useSocket} from '../hooks/SocketContext';
 import {useMyUser} from '../hooks/MyUserContext';
 
 const StyledChatHub = styled.View`
-  /* height: 100vh; // shitty, but temp fix for firefox */
-  /* height: -webkit-fill-available; */
-  /* display: flex; */
   flex: 1;
   flex-direction: ${props => props.flowDirection};
   justify-content: center;
-  overflow: hidden;
 `;
 const ConnectingText = styled.Text`
   padding: 0 10px;
 `;
-
+const CountdownText = styled.Text`
+  width: 100%;
+`;
 // When user presses Share Video, request camera
 // When user presses Next Match, Initialize socket and Find Room
 // When connection is established, alert user to countdown
@@ -91,7 +90,6 @@ export default function ChatHub() {
     if (remoteStream) {
       return (
         <View style={{backgroundColor: '#333', height: '100%'}}>
-          <VideoWindow videoType="localVideo" stream={localStream} />
           <VideoPlayer socketHelper={socketHelper} userId={user.id} roomId={roomId} />
           <VideoWindow videoType="remoteVideo" stream={remoteStream} />
           <TextChat user={user} socketHelper={socketHelper} room={roomId} />
@@ -102,6 +100,8 @@ export default function ChatHub() {
             resetState={resetSocket}
             buttons={{stop: true, mic: true, speaker: true, profile: true, countdown: false, chat: true, video: true}}
           />
+          <VideoWindow videoType="localVideo" stream={localStream} />
+          <ExitPortal name="fullscreen" />
         </View>
       );
     }
@@ -115,7 +115,7 @@ export default function ChatHub() {
     return (
       <View style={{backgroundColor: '#333', height: '100%', justifyContent: 'space-evenly', alignItems: 'center'}}>
         <ConnectingText style={{color: '#fff'}}>{connectionMsg}</ConnectingText>
-        {/* {matchCountdown > 0 && <View className="countdown">{matchCountdown}</View>} */}
+        {matchCountdown > 0 && <CountdownText>{matchCountdown}</CountdownText>}
         {enabledWidgets.updatePref && (
           <UserUpdateForm
             user={user}

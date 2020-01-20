@@ -1,16 +1,16 @@
 import React from 'react';
-import {Text} from 'react-native';
-import UserCreate from './screens/UserCreate';
-import asyncCookie from './helpers/asyncCookie';
 import AsyncStorage from '@react-native-community/async-storage';
+import {useApolloClient} from '@apollo/react-hooks';
+import {PortalProvider} from '@cala/react-portal';
+import UserCreate from './screens/UserCreate';
 import ChatHub from './screens/ChatHub';
 import MyUserProvider from './hooks/MyUserContext';
 import {EnabledWidgetsProvider} from './hooks/EnabledWidgetsContext';
 import SocketProvider from './hooks/SocketContext';
 import {LocalStreamProvider} from './hooks/LocalStreamContext';
 import {GET_ME} from './queries/queries';
-import {useApolloClient} from '@apollo/react-hooks';
-import { NotifyProvider } from './hooks/NotifyContext';
+import {NotifyProvider} from './hooks/NotifyContext';
+
 // import Header from './Header'
 // import UserCreate from './UserCreate'
 // import ChatHub from './ChatHub'
@@ -60,7 +60,9 @@ export default function App() {
           <SocketProvider>
             <LocalStreamProvider>
               <NotifyProvider>
-                <ChatHub />
+                <PortalProvider>
+                  <ChatHub />
+                </PortalProvider>
               </NotifyProvider>
             </LocalStreamProvider>
           </SocketProvider>

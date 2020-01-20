@@ -179,7 +179,7 @@ export default function VideoGrid(props) {
 
   return (
     // Quick fix for display: none not working with position absolute
-    <StyledVideoGrid isShown={isShown}>
+    <StyledVideoGrid isShown={isShown} pointerEvents="box-none">
       <View style={{display: isShown ? 'flex' : 'none', width: '100%', height: '100%'}}>
         <Backdrop />
         <CloseButton onPress={handleClose}>

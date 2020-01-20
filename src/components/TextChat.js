@@ -55,8 +55,8 @@ const TextConsole = styled.View`
   left: 0;
   justify-content: center;
   align-items: center;
-  z-index: 5;
 `;
+// z-index: 5;
 
 const ConsoleInput = styled.TextInput`
   width: ${Dimensions.get('window').width - 80}px;

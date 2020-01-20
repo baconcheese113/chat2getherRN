@@ -45,16 +45,15 @@ export default class HtmlParse {
       console.log('no results');
       return;
     }
-    const regex = /\//g;
+    this.videos = [];
     for (const i of ulResults) {
       const newItem = {};
       newItem.id = i
         .getElementsByClassName('video_link', false)[0]
         .getAttribute('href')
-        .replace(regex, '');
+        .replace(/\//g, '');
       newItem.title = i.querySelect('img')[0].getAttribute('alt');
       newItem.img = i.querySelect('img')[0].getAttribute('data-src');
-      // console.log('duration', i.getElementsByClassName('duration', false)[0])
       newItem.duration = i
         .getElementsByClassName('duration', false)[0]
         .textContent.replace(/\n/g, '')
@@ -63,5 +62,7 @@ export default class HtmlParse {
       this.videos.push(newItem);
       console.log(newItem);
     }
+    // No idea, but seems like the page is always parsed bottom to top ¯\_(ಠ_ಠ)_/¯
+    this.videos.reverse();
   }
 }
