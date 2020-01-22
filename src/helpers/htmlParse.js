@@ -3,6 +3,8 @@ import axios from 'axios';
 // import {DOMParser} from 'react-native-html-parser';
 import {DOMParser} from './dom-parser/dom-parser';
 import {REACT_APP_SEARCH_DOMAIN} from 'react-native-dotenv';
+import matchAll from 'string.prototype.matchall';
+matchAll.shim();
 
 const DOMAIN = REACT_APP_SEARCH_DOMAIN || 'youtube';
 const SEARCH_URL = `https://www.${DOMAIN}.com/?search=`;

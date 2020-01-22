@@ -37,6 +37,7 @@
     "react-native-webrtc": "^1.75.3",
     "set-cookie-parser": "^2.4.1",
     "socket.io-client": "^2.3.0",
+    "string.prototype.matchall": "^4.0.2",
     "styled-components": "^5.0.0",
     "victory-native": "^34.0.0"
   },

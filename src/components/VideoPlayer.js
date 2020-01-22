@@ -141,7 +141,7 @@ export default function VideoPlayer(props) {
       setCurrentVideo(newMsg.videoId);
       setVideoUrl(newMsg.videoUrl);
       if (player.current && newMsg.currentTime) {
-        player.current.currentTime = parseFloat(newMsg.currentTime);
+        player.current.seek(parseFloat(newMsg.currentTime));
       }
     }
     // Notify if state was changed
@@ -157,17 +157,18 @@ export default function VideoPlayer(props) {
     // If other user paused the video
     if (newMsg.type === UPDATE.PAUSE) {
       setPaused(true);
-      player.current.currentTime = newMsg.currentTime;
+      player.current.seek(newMsg.currentTime);
     } else if (newMsg.type === UPDATE.PLAY) {
       setPaused(false);
-      player.current.currentTime = newMsg.currentTime;
+      player.current.seek(newMsg.currentTime);
     } else if (newMsg.type === UPDATE.SEEKED) {
-      player.current.currentTime = newMsg.currentTime;
+      player.current.seek(newMsg.currentTime);
     } else return;
     setDisabled(true);
   };
 
   const handlePlaybackRateChange = playbackRate => {
+    console.log(`Playing: ${playbackRate} and disabled: ${disabled}`);
     if (disabled) {
       setDisabled(false);
       return;
@@ -246,17 +247,11 @@ export default function VideoPlayer(props) {
 
   const height = Dimensions.get('window').width > Dimensions.get('window').height ? 'auto' : '100%';
 
-  const testUrl = 'https://ia800501.us.archive.org/10/items/BigBuckBunny_310/big_buck_bunny_640_512kb.mp4';
+  // const testUrl = 'https://ia800501.us.archive.org/10/items/BigBuckBunny_310/big_buck_bunny_640_512kb.mp4';
   return (
     <>
       <StyledVideoPlayer coords={coords} active={active} pointerEvents="box-none">
-        <SearchButton onPress={() => setIsShown(true)}>
-          <FontAwesomeIcon icon={faSearch} color="#fff" />
-        </SearchButton>
-        <SyncButton onPress={toggleSync}>
-          <SyncText color={syncColor}>{getSyncText()}</SyncText>
-        </SyncButton>
-        <VideoContainer disabled={disabled} height={height} pointerEvents={disabled ? 'none' : 'auto'}>
+        <VideoContainer disabled={disabled} height={height} pointerEvents={disabled ? 'none' : 'box-none'}>
           {currentVideo ? (
             <Video
               key={currentVideo}
@@ -281,6 +276,12 @@ export default function VideoPlayer(props) {
             <EmptyStateText>Click the search and sync buttons in the top left!</EmptyStateText>
           )}
         </VideoContainer>
+        <SearchButton onPress={() => setIsShown(true)}>
+          <FontAwesomeIcon icon={faSearch} color="#fff" />
+        </SearchButton>
+        <SyncButton onPress={toggleSync}>
+          <SyncText color={syncColor}>{getSyncText()}</SyncText>
+        </SyncButton>
       </StyledVideoPlayer>
       <EntrancePortal name="fullscreen">
         <VideoGrid
