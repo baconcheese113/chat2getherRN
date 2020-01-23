@@ -92,8 +92,8 @@ export default function ChatHub() {
         <View style={{backgroundColor: '#333', height: '100%'}}>
           <VideoPlayer socketHelper={socketHelper} userId={user.id} roomId={roomId} />
           <VideoWindow videoType="remoteVideo" stream={remoteStream} />
-          <TextChat user={user} socketHelper={socketHelper} room={roomId} />
           <ProfileCard user={otherUser} />
+          <TextChat user={user} socketHelper={socketHelper} room={roomId} />
           {/* <Countdown socketHelper={socketHelper} myUserId={user.id} roomId={roomId} /> */}
           <ChatNav />
           <InCallNavBar

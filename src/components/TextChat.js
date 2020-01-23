@@ -128,8 +128,8 @@ export default function TextChat(props) {
 
   return (
     // Quick fix for display: none not working with position absolute
-    <View style={{display: enabledWidgets.text ? 'flex' : 'none'}}>
-      <StyledTextChat active={enabledWidgets.text}>
+    <View style={{display: enabledWidgets.text ? 'flex' : 'none'}} pointerEvents="box-none">
+      <StyledTextChat active={enabledWidgets.text} pointerEvents="box-none">
         <TextHistory
           inverted
           data={textChat}
@@ -139,7 +139,7 @@ export default function TextChat(props) {
             return <CommentType>{item.comment}</CommentType>;
           }}
         />
-        <TextConsole>
+        <TextConsole pointerEvents="box-none">
           <ConsoleInput value={comment} onChangeText={text => setComment(text)} />
           <ConsoleButton onPress={handleSubmit}>
             <SendText>Send</SendText>
