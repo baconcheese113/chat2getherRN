@@ -8,7 +8,7 @@ import TextChat from '../components/TextChat';
 import InCallNavBar from '../components/InCallNavBar';
 import VideoPlayer from '../components/VideoPlayer';
 import UserUpdateForm from '../components/UserUpdateForm';
-// import Countdown from './Countdown'
+import Countdown from '../components/Countdown';
 import ProfileCard from '../components/ProfileCard';
 import MatchHistory from '../components/MatchHistory';
 import StackGraph from '../components/stats/StackGraph';
@@ -94,11 +94,11 @@ export default function ChatHub() {
           <VideoWindow videoType="remoteVideo" stream={remoteStream} />
           <ProfileCard user={otherUser} />
           <TextChat user={user} socketHelper={socketHelper} room={roomId} />
-          {/* <Countdown socketHelper={socketHelper} myUserId={user.id} roomId={roomId} /> */}
+          <Countdown socketHelper={socketHelper} myUserId={user.id} roomId={roomId} />
           <ChatNav />
           <InCallNavBar
             resetState={resetSocket}
-            buttons={{stop: true, mic: true, speaker: true, profile: true, countdown: false, chat: true, video: true}}
+            buttons={{stop: true, mic: true, speaker: true, profile: true, countdown: true, chat: true, video: true}}
           />
           <VideoWindow videoType="localVideo" stream={localStream} />
           <ExitPortal name="fullscreen" />

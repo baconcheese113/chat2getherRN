@@ -38,7 +38,7 @@ export default function VideoWindow(props) {
 
   if (videoType === 'localVideo') {
     return (
-      <Draggable x={30} y={80} minX={0} minY={20} maxX={300} maxY={500} animatedViewProps={{zIndex: 0}}>
+      <Draggable minX={0} minY={20} maxX={300} maxY={500} animatedViewProps={{zIndex: 0}}>
         <LocalVideoContainer>{getVideo()}</LocalVideoContainer>
       </Draggable>
     );
