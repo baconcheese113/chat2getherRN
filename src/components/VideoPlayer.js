@@ -73,7 +73,13 @@ export default function VideoPlayer(props) {
   const [paused, setPaused] = React.useState(false);
 
   const player = React.useRef();
-  const currentProgress = React.useRef(0);
+
+  /** For self implementation of pause/play tracking */
+  const prevMillis = React.useRef();
+  const prevPlayerTime = React.useRef();
+  const curState = React.useRef();
+  const probablyPlaying = React.useRef(0);
+  const probablyPaused = React.useRef(0);
 
   const {enabledWidgets} = useEnabledWidgets();
   const active = enabledWidgets.video;
@@ -100,6 +106,7 @@ export default function VideoPlayer(props) {
     const newVideoUrl = await HtmlParse.getUrl(videoId);
     setVideoUrl(newVideoUrl);
     setCurrentVideo(videoId);
+    setDisabled(false);
     console.log(`set videoUrl to ${newVideoUrl}`);
     if (syncState === SYNC.ACCEPTED) {
       msg.videoId = videoId;
@@ -157,9 +164,11 @@ export default function VideoPlayer(props) {
     // If other user paused the video
     if (newMsg.type === UPDATE.PAUSE) {
       setPaused(true);
+      curState.current = UPDATE.PAUSE;
       player.current.seek(newMsg.currentTime);
     } else if (newMsg.type === UPDATE.PLAY) {
       setPaused(false);
+      curState.current = UPDATE.PLAY;
       player.current.seek(newMsg.currentTime);
     } else if (newMsg.type === UPDATE.SEEKED) {
       player.current.seek(newMsg.currentTime);
@@ -167,19 +176,67 @@ export default function VideoPlayer(props) {
     setDisabled(true);
   };
 
-  const handlePlaybackRateChange = playbackRate => {
-    console.log(`Playing: ${playbackRate} and disabled: ${disabled}`);
-    if (disabled) {
-      setDisabled(false);
-      return;
-    }
-    msg.type = playbackRate ? UPDATE.PLAY : UPDATE.PAUSE;
-    msg.currentTime = currentProgress.current;
-    socketHelper.emit('videoPlayerUpdate', msg);
-  };
+  // Callback not supported by react-native-video
 
-  const handleProgress = ({currentTime}) => {
-    currentProgress.current = currentTime;
+  // const handlePlaybackRateChange = playbackRate => {
+  //   console.log(`Playing: ${playbackRate} and disabled: ${disabled}`);
+  //   if (disabled) {
+  //     setDisabled(false);
+  //     return;
+  //   }
+  //   msg.type = playbackRate ? UPDATE.PLAY : UPDATE.PAUSE;
+  //   msg.currentTime = prevPlayerTime.current;
+  //   socketHelper.emit('videoPlayerUpdate', msg);
+  // };
+
+  // Will need to use until react-native-video supports onPlay/onPause callbacks
+  // https://github.com/react-native-community/react-native-video/issues/1879
+  const handleProgress = progress => {
+    const {currentTime} = progress;
+    const currentMillis = Date.now();
+    // worldDelta is Date.now() - prevMillis - should be positive time like 300
+    const worldDeltaSeconds = (currentMillis - prevMillis.current) / 1000;
+    // playerDelta is currentTime - prevPlayerTime - will be 300 if playing, negative if seeking backwards, 0 if stopped
+    const playerDeltaSeconds = currentTime - prevPlayerTime.current;
+    const timeUnplayed = Math.abs(worldDeltaSeconds - playerDeltaSeconds);
+    // In ideal world, would be 0 if playing
+    if (timeUnplayed < 0.1) {
+      probablyPlaying.current = probablyPlaying.current + 1;
+      probablyPaused.current = 0;
+    }
+    // In ideal world, timeUnplayed would equal worldDeltaSeconds
+    else if (timeUnplayed < worldDeltaSeconds + 0.1) {
+      probablyPaused.current = probablyPaused.current + 1;
+      probablyPlaying.current = 0;
+    } else {
+      probablyPaused.current = 0;
+      probablyPlaying.current = 0;
+    }
+
+    // Need separate variable tracking curState to keep track of when our state changes
+    if (curState.current !== UPDATE.PLAY && probablyPlaying.current === 4) {
+      curState.current = UPDATE.PLAY;
+      // Send socket msg
+      if (!disabled) {
+        msg.type = UPDATE.PLAY;
+        msg.currentTime = currentTime;
+        socketHelper.emit('videoPlayerUpdate', msg);
+        console.log('PLAYING');
+      }
+      setDisabled(false);
+    } else if (curState.current !== UPDATE.PAUSE && probablyPaused.current === 4) {
+      curState.current = UPDATE.PAUSE;
+      if (!disabled) {
+        msg.type = UPDATE.PAUSE;
+        msg.currentTime = currentTime;
+        socketHelper.emit('videoPlayerUpdate', msg);
+        console.log('PAUSED');
+      }
+      setDisabled(false);
+    }
+    // Cache time values
+    prevMillis.current = currentMillis;
+    prevPlayerTime.current = currentTime;
   };
 
   const handleSeek = ({currentTime}) => {
@@ -259,10 +316,11 @@ export default function VideoPlayer(props) {
                 width: '100%',
                 height: 300,
               }}
-              paused={paused}
+              // paused={paused}
+              rate={paused ? 0 : 1}
               ref={player}
               playWhenInactive
-              onPlaybackRateChange={handlePlaybackRateChange}
+              onPlaybackRateChange={() => console.log('playback change')}
               onSeek={handleSeek}
               onProgress={handleProgress}
               source={{uri: videoUrl}}
