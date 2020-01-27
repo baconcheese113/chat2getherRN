@@ -4,6 +4,7 @@ import SocketHelper from '../helpers/socketHelper';
 import {UPDATE_USER} from '../queries/mutations';
 import {FIND_ROOM} from '../queries/queries';
 import {useMyUser} from './MyUserContext';
+import {useEnabledWidgets} from './EnabledWidgetsContext';
 
 const SocketContext = React.createContext();
 export function useSocket() {
@@ -26,6 +27,7 @@ export default function SocketProvider(props) {
 
   const {user, updateUser} = useMyUser();
   const client = useApolloClient();
+  const {chatSettings} = useEnabledWidgets();
 
   const resetSocket = () => {
     console.log('reset state');
@@ -109,8 +111,14 @@ export default function SocketProvider(props) {
           return prev;
         });
         console.log(`hackyUser is ${hackyUser}`);
-        if (hackyUser) {
+        if (hackyUser && e.stream) {
           setRemoteStream(e.stream);
+          const audioTracks = e.stream.getAudioTracks();
+          if (audioTracks) {
+            audioTracks.forEach(track => {
+              track.enabled = !chatSettings.speakerMute;
+            });
+          }
         }
       }, 5000);
     };

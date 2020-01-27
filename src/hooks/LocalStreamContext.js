@@ -43,18 +43,14 @@ export const LocalStreamProvider = props => {
       const stream = await mediaDevices.getUserMedia(constraints);
       // If we have an existing connection
       console.log(stream);
-      // TODO: pull in socketHelper
       if (remoteStream && videoSource) {
         socketHelper.replaceStream(stream);
       }
       setLocalStream(stream);
-      // const audio = stream.getAudioTracks();
-      // console.log(audio);
-      // // TODO
-      // if (audio.length > 0) {
-      //   audio[0].enabled = !chatSettings.micMute;
-      //   console.log(`audio enabled is now ${audio[0].enabled}`);
-      // }
+      stream.getAudioTracks().forEach(track => {
+        track.enabled = !chatSettings.micMute;
+        console.log(`audio enabled is now ${track.enabled}`);
+      });
     } catch (e) {
       alert(
         "Video is required to use this app. On iOS only Safari can share video. Also make sure you're at 'https://'. If you're still receiving this error, please contact me.",

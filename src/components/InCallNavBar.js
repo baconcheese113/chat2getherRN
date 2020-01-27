@@ -1,10 +1,10 @@
 import React from 'react';
-import {View, Text} from 'react-native';
 import styled from 'styled-components';
 import ToggleButton from './ToggleButton';
 import {useEnabledWidgets} from '../hooks/EnabledWidgetsContext';
 import {useLocalStream} from '../hooks/LocalStreamContext';
 import {useNotify} from '../hooks/NotifyContext';
+import {useSocket} from '../hooks/SocketContext';
 import {
   faStop,
   faMicrophone,
@@ -28,7 +28,7 @@ const StyledNavBar = styled.View`
   right: 0;
   flex-direction: row;
   font-size: 16px;
-  padding: 5px;
+  margin-bottom: 5px;
 `;
 const LeftAligned = styled.View`
   flex-direction: row;
@@ -43,55 +43,44 @@ const RightAligned = styled.View`
 export default function InCallNavBar(props) {
   const {resetState, buttons} = props;
 
-  const {localStream, requestCamera} = useLocalStream();
+  const {localStream} = useLocalStream();
+  const {remoteStream} = useSocket();
+
   const {videoNotify, countdownNotify, textNotify} = useNotify();
   const {enabledWidgets, featureToggle, chatSettings, setChatSettings} = useEnabledWidgets();
 
-  const flipCamera = async e => {
-    // e.stopPropagation()
-    // try {
-    //   const allDevices = await navigator.mediaDevices.enumerateDevices()
-    //   const rear = allDevices.find(d => d.kind === 'videoinput' && d.label.includes('back'))
-    //   const front = allDevices.find(d => d.kind === 'videoinput' && d.label.includes('front'))
-    //   const currentId = localStream.getVideoTracks()[0].getSettings().deviceId
-    //   console.log(currentId, rear.deviceId, front.deviceId)
-    //   if (rear && front) {
-    //     const newDeviceId = currentId === rear.deviceId ? front.deviceId : rear.deviceId
-    //     requestCamera(newDeviceId)
-    //   }
-    // } catch (err) {
-    //   console.error(err)
-    // }
+  const flipCamera = async () => {
+    if (!localStream) return;
+    localStream.getVideoTracks().forEach(track => track._switchCamera());
   };
-  // return <View><Text>Hello</Text></View>
 
-  if (!enabledWidgets) return <View></View>;
+  // type should be speakerMute or micMute
+  const handleMutePress = (stream, type) => {
+    if (stream && stream.getAudioTracks()) {
+      stream.getAudioTracks().forEach(track => {
+        // enabled is the inverse of mute, but we're inverting that onPress
+        track.enabled = chatSettings[type];
+        console.log(`nav bar ${type}.enabled is now ${track.enabled}`);
+      });
+    }
+    setChatSettings({...chatSettings, [type]: !chatSettings[type]});
+  };
 
   return (
     <StyledNavBar>
       <LeftAligned>
         {buttons.stop && <ToggleButton iconClass={faStop} onPress={resetState} />}
-        {/* {buttons.mic && (
+        {buttons.mic && (
           <ToggleButton
             iconClass={chatSettings.micMute ? faMicrophoneSlash : faMicrophone}
-            onPress={() => {
-              if (localStream) {
-                const audio = localStream.getAudioTracks()
-                if (audio.length > 0) {
-                  // enabled is the inverse of mute, but we're inverting that onPress
-                  audio[0].enabled = chatSettings.micMute
-                  console.log(`nav bar mic.enabled is now ${audio[0].enabled}`)
-                }
-              }
-              setChatSettings({ ...chatSettings, micMute: !chatSettings.micMute })
-            }}
+            onPress={() => handleMutePress(localStream, 'micMute')}
             active={chatSettings.micMute ? 0 : 1}
           />
-        )} */}
+        )}
         {buttons.speaker && (
           <ToggleButton
             iconClass={chatSettings.speakerMute ? faVolumeMute : faVolumeUp}
-            onPress={() => setChatSettings({...chatSettings, speakerMute: !chatSettings.speakerMute})}
+            onPress={() => handleMutePress(remoteStream, 'speakerMute')}
             active={chatSettings.speakerMute ? 0 : 1}
           />
         )}
