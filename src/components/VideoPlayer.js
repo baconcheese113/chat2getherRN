@@ -85,8 +85,6 @@ export default function VideoPlayer(props) {
   const active = enabledWidgets.video;
   const {videoNotify, setVideoNotify} = useNotify();
 
-  const coords = {x: Dimensions.get('window').width / 2, y: Dimensions.get('window').height / 3};
-
   // When user presses search
   const onSubmitSearch = async newQuery => {
     if (!newQuery || (parser && newQuery === parser.search)) return;
@@ -307,7 +305,7 @@ export default function VideoPlayer(props) {
   // const testUrl = 'https://ia800501.us.archive.org/10/items/BigBuckBunny_310/big_buck_bunny_640_512kb.mp4';
   return (
     <>
-      <StyledVideoPlayer coords={coords} active={active} pointerEvents="box-none">
+      <StyledVideoPlayer active={active} pointerEvents="box-none">
         <VideoContainer disabled={disabled} height={height} pointerEvents={disabled ? 'none' : 'box-none'}>
           {currentVideo ? (
             <Video

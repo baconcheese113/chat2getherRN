@@ -25,7 +25,8 @@ const Card = styled.View`
   flex-direction: row;
   justify-content: center;
   position: relative;
-  left: ${props => (props.active ? 0 : Dimensions.get('window').width)}px;
+  display: ${props => (props.active ? 'flex' : 'none')};
+  left: ${props => (props.active ? 0 : Dimensions.get('window').width * 2)}px;
 `;
 const CardContent = styled.View`
   margin: 20px;
@@ -68,7 +69,7 @@ export default function ProfileCard() {
   const active = enabledWidgets.profile;
 
   return (
-    <StyledProfileCard>
+    <StyledProfileCard pointerEvents="box-none">
       <Card active={active}>
         <CardContent>
           <CardTitle>

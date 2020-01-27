@@ -25,10 +25,14 @@ const StyledChatHub = styled.View`
   justify-content: center;
 `;
 const ConnectingText = styled.Text`
+  font-size: 18px;
   padding: 0 10px;
 `;
 const CountdownText = styled.Text`
   width: 100%;
+  text-align: center;
+  font-size: 36px;
+  color: #ccc;
 `;
 // When user presses Share Video, request camera
 // When user presses Next Match, Initialize socket and Find Room

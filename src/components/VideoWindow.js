@@ -2,7 +2,7 @@ import React from 'react';
 import {RTCView} from 'react-native-webrtc';
 import styled from 'styled-components';
 import Draggable from 'react-native-draggable';
-import {useEnabledWidgets} from '../hooks/EnabledWidgetsContext';
+import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
 
 const LocalVideoContainer = styled.View`
   background-color: #333;
@@ -19,19 +19,11 @@ const RemoteVideoContainer = styled.View`
 export default function VideoWindow(props) {
   const {stream, videoType} = props;
 
-  const {chatSettings} = useEnabledWidgets();
-
   const getVideo = () => {
-    const remoteWidth = videoType === 'remoteVideo' ? '100%' : 110;
-    const remoteHeight = videoType === 'remoteVideo' ? '100%' : 160;
+    const width = videoType === 'remoteVideo' ? '100%' : 110;
+    const height = videoType === 'remoteVideo' ? '100%' : 160;
     if (stream) {
-      return (
-        <RTCView
-          style={{height: remoteHeight, width: remoteWidth}}
-          muted={videoType === 'localVideo' || chatSettings.speakerMute}
-          streamURL={stream.toURL()}
-        />
-      );
+      return <RTCView style={{height, width}} zIndex={0} streamURL={stream.toURL()} />;
     }
     return '';
   };
@@ -43,5 +35,19 @@ export default function VideoWindow(props) {
       </Draggable>
     );
   }
-  return <RemoteVideoContainer pointerEvents="box-none">{getVideo()}</RemoteVideoContainer>;
+  return (
+    <RemoteVideoContainer pointerEvents="box-none">
+      <ReactNativeZoomableView
+        maxZoom={4}
+        minZoom={0.5}
+        zoomStep={0.1}
+        initialZoom={1}
+        bindToBorders
+        style={{
+          flex: 1,
+        }}>
+        {getVideo()}
+      </ReactNativeZoomableView>
+    </RemoteVideoContainer>
+  );
 }
