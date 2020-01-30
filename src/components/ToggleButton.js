@@ -3,26 +3,16 @@ import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 
 const StyledToggleButton = styled.View`
-  /* position: relative; */
   height: 44px;
   width: 44px;
   margin-left: 5px;
 `;
 const ButtonElem = styled.TouchableOpacity`
-  height: 100%;
-  width: 100%;
-  padding: 0;
+  flex: 1;
   border-radius: 44px;
   justify-content: center;
   align-items: center;
   background-color: ${({active, theme}) => (active ? theme.colorPrimary : theme.colorGreyDark2)};
-  /* background-image: linear-gradient(
-    to bottom right,
-    ${({theme}) => theme.colorPrimary},
-    ${({theme}) => theme.colorGreyLight3}
-  ); */
-  /* z-index: inherit; */
-  /* filter: grayscale(${props => (props.active ? '0%' : '90%')}); */
 `;
 
 const Notification = styled.Text`

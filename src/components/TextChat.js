@@ -21,7 +21,6 @@ const TextHistory = styled.FlatList`
   max-height: 150px;
   width: 90%;
   padding: 10px;
-  position: relative;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
 `;

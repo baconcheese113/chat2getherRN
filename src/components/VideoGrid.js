@@ -57,7 +57,6 @@ const ScrollList = styled.ScrollView`
   /* overflow-y: auto; */
 `;
 const Result = styled.TouchableOpacity`
-  position: relative;
   max-height: 300px;
   height: 250px;
   width: 100%;

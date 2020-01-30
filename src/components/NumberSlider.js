@@ -5,7 +5,6 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider';
 const StyledNumberSlider = styled.View`
   width: 100%;
   /* margin: 30px auto 10px; */
-  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;

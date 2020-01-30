@@ -24,7 +24,6 @@ const Card = styled.View`
   border: 1px solid ${props => props.theme.colorPrimary};
   flex-direction: row;
   justify-content: center;
-  position: relative;
   display: ${props => (props.active ? 'flex' : 'none')};
   left: ${props => (props.active ? 0 : Dimensions.get('window').width * 2)}px;
 `;

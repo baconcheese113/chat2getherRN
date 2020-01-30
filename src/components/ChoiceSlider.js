@@ -10,7 +10,6 @@ const StyledChoiceSlider = styled.View`
   /* display: flex; */
   flex-direction: row;
   justify-content: space-around;
-  position: relative;
   border: 2px solid ${props => props.theme.colorPrimary};
   /* font-size: ${props => `${props.fontSize}px` || 'inherit'}; */
   /* cursor: pointer; */

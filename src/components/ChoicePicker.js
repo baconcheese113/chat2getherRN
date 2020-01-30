@@ -8,11 +8,9 @@ const StyledChoicePicker = styled.View`
   margin: 10px auto;
   /* outline: none; */
   background-color: ${props => props.theme.colorGreyDark1};
-  /* display: flex; */
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  position: relative;
   border: 2px solid ${props => props.theme.colorPrimary};
   /* font-size: ${props => props.fontSize || '16'}px; */
   /* cursor: pointer; */
@@ -32,7 +30,6 @@ const Option = styled.TouchableOpacity`
   color: ${props => (props.active ? 'white' : props.theme.colorPrimaryLight)};
   ${props => (props.active ? `background-color: ${props.theme.colorPrimary};` : '')} /* transition: all .6s; */
 `;
-// z-index: 10;
 
 const ChoicePicker = props => {
   const {selected, change, choices} = props;

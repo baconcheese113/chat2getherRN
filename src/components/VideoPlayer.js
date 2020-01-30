@@ -13,7 +13,6 @@ import VideoGrid from './VideoGrid';
 const StyledVideoPlayer = styled.View`
   background-color: ${props => props.theme.colorGreyDark3};
   display: ${props => (props.active ? 'flex' : 'none')};
-  position: relative;
   flex: 1;
   width: 100%;
 `;
