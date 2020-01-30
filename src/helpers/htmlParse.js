@@ -65,6 +65,6 @@ export default class HtmlParse {
       console.log(newItem);
     }
     // No idea, but seems like the page is always parsed bottom to top ¯\_(ಠ_ಠ)_/¯
-    this.videos.reverse();
+    // this.videos.reverse();
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Button, TouchableOpacity} from 'react-native';
+import {View, Button} from 'react-native';
 import styled from 'styled-components';
 import {ExitPortal} from '@cala/react-portal';
 import VideoWindow from '../components/VideoWindow';
@@ -45,13 +45,12 @@ export default function ChatHub() {
 
   const {user, updateUser} = useMyUser();
   const {localStream, requestCamera} = useLocalStream();
-  const {enabledWidgets, setEnabledWidgets} = useEnabledWidgets();
+  const {enabledWidgets} = useEnabledWidgets();
   const {
     socketHelper,
     connectionMsg,
     remoteStream,
     nextMatch,
-    canNextMatch,
     roomId,
     resetSocket,
     otherUser,

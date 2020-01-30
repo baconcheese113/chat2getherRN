@@ -50,22 +50,14 @@ const UserCreateNumbers = styled.View`
   border-radius: 20px;
 `;
 
-// const MoreFeatures = styled.button`
-//   display: inline-block;
-//   font: inherit;
-//   font-size: 2rem;
-//   color: inherit;
-// `
-
 export default function UserCreate(props) {
   const {setUser} = props;
-  const [errorMsg, setErrorMsg] = React.useState('');
+  // const [errorMsg, setErrorMsg] = React.useState('');
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const client = useApolloClient();
 
-  const handleSubmit = async (e, {gender, lookingFor, age, minAge, maxAge, audioPref, accAudioPrefs}) => {
-    e.preventDefault();
+  const handleSubmit = async ({gender, lookingFor, age, minAge, maxAge, audioPref, accAudioPrefs}) => {
     if (age && minAge && maxAge) {
       setIsSubmitting(true);
       const {data, loading, error} = await client.mutate({
@@ -82,10 +74,9 @@ export default function UserCreate(props) {
           },
         },
       });
-      if (error) {
-        setErrorMsg(error);
-      } else if (loading) setErrorMsg(loading);
-      else {
+      if (error || loading) {
+        // setErrorMsg(error || loading);
+      } else {
         const user = data.createUser;
         user.lookingFor = lookingFor.map(x => {
           return {name: x};
@@ -95,9 +86,8 @@ export default function UserCreate(props) {
         });
         setUser(user);
       }
-    } else {
-      setErrorMsg('Please fill out all fields');
     }
+    setIsSubmitting(false);
   };
 
   return (
@@ -125,7 +115,7 @@ export default function UserCreate(props) {
         </UserCreateStats>
       </IntroSection>
 
-      <UserCreateForm isSubmitting={isSubmitting} error={errorMsg} onSubmit={handleSubmit} />
+      <UserCreateForm isSubmitting={isSubmitting} onSubmit={handleSubmit} />
 
       <Text>*You are paired strictly on your preferences and type of sharing (video, audio, text)</Text>
     </Main>

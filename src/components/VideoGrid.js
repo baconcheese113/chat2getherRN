@@ -2,7 +2,8 @@ import React from 'react';
 import {View} from 'react-native';
 import styled from 'styled-components';
 import {REACT_APP_SEARCH_DOMAIN} from 'react-native-dotenv';
-// import SVGTester from './SVGTester';
+import SVGTester from './SVGTester';
+import {EntrancePortal} from '@cala/react-portal';
 
 const StyledVideoGrid = styled.View`
   position: absolute;
@@ -139,9 +140,11 @@ export default function VideoGrid(props) {
 
   const getContent = () => {
     if (isLoading) {
-      console.log('displayed');
-      // const length = `${window.innerWidth / 3}px`;
-      return <SearchContent>{/* <SVGTester height={length} width={length} /> */}</SearchContent>;
+      return (
+        <EntrancePortal name="loading">
+          <SVGTester />
+        </EntrancePortal>
+      );
     }
     if (!videos.length && submittedQuery) {
       return (

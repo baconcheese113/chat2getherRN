@@ -1,7 +1,7 @@
 import React from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useApolloClient} from '@apollo/react-hooks';
-import {PortalProvider} from '@cala/react-portal';
+import {PortalProvider, ExitPortal} from '@cala/react-portal';
 import UserCreate from './screens/UserCreate';
 import ChatHub from './screens/ChatHub';
 import MyUserProvider from './hooks/MyUserContext';
@@ -62,6 +62,7 @@ export default function App() {
               <NotifyProvider>
                 <PortalProvider>
                   <ChatHub />
+                  <ExitPortal name="loading" />
                 </PortalProvider>
               </NotifyProvider>
             </LocalStreamProvider>
@@ -70,5 +71,10 @@ export default function App() {
       </MyUserProvider>
     );
   }
-  return <UserCreate setUser={storeUser} />;
+  return (
+    <PortalProvider>
+      <UserCreate setUser={storeUser} />
+      <ExitPortal name="loading" />
+    </PortalProvider>
+  );
 }

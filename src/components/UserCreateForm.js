@@ -5,6 +5,7 @@ import NumberSlider from './NumberSlider';
 import SVGTester from './SVGTester';
 import ChoicePicker from './ChoicePicker';
 import {GENDERS, AUDIO_PREFS} from '../helpers/constants';
+import {EntrancePortal} from '@cala/react-portal';
 
 const StyledForm = styled.View`
   background-color: ${props => props.theme.colorGreyDark1 || '#333'};
@@ -36,27 +37,9 @@ const SubmitButton = styled.Button`
   letter-spacing: 15px;
   /* margin-top: 1rem; */
 `;
-const Modal = styled.View`
-  position: absolute;
-  top: 0;
-  bottom: 0%;
-  left: 0%;
-  right: 0%;
-  background-color: #111;
-  opacity: 0.9;
-  z-index: 500;
-
-  /* & > * {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0%;
-    transform: translateY(-50%);
-  } */
-`;
 
 export default function UserCreateForm(props) {
-  const {error, onSubmit} = props;
+  const {isSubmitting, onSubmit} = props;
   const [gender, setGender] = React.useState(0);
   const [lookingFor, setLookingFor] = React.useState(
     GENDERS.map(x => {
@@ -72,7 +55,6 @@ export default function UserCreateForm(props) {
       return {name: x};
     }),
   );
-  const [isLoading, setIsLoading] = React.useState(false);
 
   const changeNumbers = newArr => {
     if (newArr.length < 1) {
@@ -86,9 +68,8 @@ export default function UserCreateForm(props) {
     }
   };
 
-  const handleSubmit = e => {
-    setIsLoading(true);
-    onSubmit(e, {
+  const handleSubmit = () => {
+    onSubmit({
       gender: GENDERS[gender],
       lookingFor,
       age,
@@ -101,7 +82,6 @@ export default function UserCreateForm(props) {
 
   return (
     <StyledForm>
-      {isLoading && <Modal>{/* <SVGTester height="50vh" width="50vh" /> */}</Modal>}
       <Row>
         <InputLabel>I&apos;m</InputLabel>
         <ChoiceSlider cur={gender} change={setGender} choices={GENDERS} height="15px" width="100%" />
@@ -134,6 +114,11 @@ export default function UserCreateForm(props) {
         />
       </Row>
       <SubmitButton title="Start" onPress={handleSubmit} />
+      {isSubmitting && (
+        <EntrancePortal name="loading">
+          <SVGTester />
+        </EntrancePortal>
+      )}
     </StyledForm>
   );
 }

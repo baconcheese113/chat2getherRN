@@ -27,7 +27,7 @@ const responseLink = new ApolloLink((operation, forward) => {
     const {headers} = operation.getContext().response;
     console.info(headers, result);
     const combinedCookieHeader = headers.get('set-cookie');
-    if(combinedCookieHeader) asyncCookie.putTokenInStorage(combinedCookieHeader);
+    if (combinedCookieHeader) asyncCookie.putTokenInStorage(combinedCookieHeader);
     return result;
   });
 });
