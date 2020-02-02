@@ -1,6 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
-import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import styled, {ThemeContext} from 'styled-components';
+// import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import MultiSlider from '../helpers/multi-slider/MultiSlider'
+import CustomLabel from '../helpers/multi-slider/CustomLabel';
 
 const StyledNumberSlider = styled.View`
   width: 100%;
@@ -10,38 +12,39 @@ const StyledNumberSlider = styled.View`
   align-items: center;
   justify-content: center;
 `;
-
-const StyledSlider = styled(MultiSlider)`
-  color: ${props => props.theme.colorPrimary};
-
-  /* & .slider-label {
-    font-size: 20px;
-  } */
-`;
-
 export default function NumberSlider(props) {
   const {numbers, change} = props;
   const MIN_AGE = 18;
   const MAX_AGE = 90;
 
+  const theme = React.useContext(ThemeContext)
+  const [parentWidth, setParentWidth] = React.useState(280) // default slider width 
+
   const handleSliderChange = newValue => {
     change(newValue);
   };
+  
+  const handleLayout = l => {
+    console.log(l.nativeEvent)
+    setParentWidth(l.nativeEvent.layout.width)
+  }
 
   return (
-    <StyledNumberSlider>
-      <StyledSlider
-        // classes={{valueLabel: 'slider-label'}}
+    <StyledNumberSlider onLayout={handleLayout}>
+      <MultiSlider
+        sliderLength={parentWidth * .9}
         values={numbers}
         onValuesChangeFinish={handleSliderChange}
-        // defaultValue={numbers}
-        // valueLabelDisplay="on"
-        valuePrefix={'Number'}
-        aria-labelledby="range-slider"
-        getAriaValueText={val => `${val} years`}
         max={MAX_AGE}
         min={MIN_AGE}
         enabledTwo={numbers.length > 1}
+        minMarkerOverlapDistance={2}
+        customLabel={CustomLabel}
+        snapped
+        allowOverlap={false}
+        step={1}
+        selectedStyle={{ backgroundColor: theme.colorPrimary }}
+        markerStyle={{ backgroundColor: theme.colorPrimaryLight }}
       />
     </StyledNumberSlider>
   );

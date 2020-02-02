@@ -8,12 +8,12 @@ import {GENDERS, AUDIO_PREFS} from '../helpers/constants';
 import {EntrancePortal} from '@cala/react-portal';
 
 const StyledForm = styled.View`
-  background-color: ${props => props.theme.colorGreyDark1 || '#333'};
+  /* background-color: ${props => props.theme.colorGreyDark1 || '#333'}; */
   padding: 10px;
   /* margin: 2rem 1rem; */
 `;
 const Row = styled.View`
-  /* flex-direction: column; */
+  margin-bottom: 16px;
   align-items: center;
 `;
 const InputLabel = styled.Text`
