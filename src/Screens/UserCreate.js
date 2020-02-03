@@ -15,7 +15,6 @@ const Title = styled.Text`
   text-align: center;
   margin: 48px;
   color: ${props => props.theme.colorPrimary};
-  opacity: 0.7;
 `;
 
 export default function UserCreate(props) {

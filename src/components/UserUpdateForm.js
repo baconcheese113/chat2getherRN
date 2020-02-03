@@ -8,37 +8,21 @@ import ChoiceSlider from './ChoiceSlider'
 import { GENDERS, AUDIO_PREFS } from '../helpers/constants'
 
 const StyledForm = styled.View`
-  width: 90%;
-  max-height: 45%;
-  max-width: 600px;
+  max-height: 55%;
   flex: 1;
-  background-color: ${props => props.theme.colorGreyDark1};
-  /* display: flex;
-  flex-direction: column; */
-  /* overflow-x: hidden; */
 `
 const Row = styled.View`
-  /* display: flex;
-  flex-direction: column; */
   align-items: center;
 `
-const ScrollContent = styled.ScrollView`
-  /* overflow-y: auto; */
-  flex: 1;
-`
+const ScrollContent = styled.ScrollView``
+
 const InputLabel = styled.Text`
-  /* display: inline-block; */
   font-size: ${({ fontSize }) => fontSize || 15}px;
   margin-right: 10px;
   text-transform: uppercase;
   color: ${props => props.theme.colorPrimaryLight};
 `
 const SubmitButton = styled.Button`
-  /* background-image: linear-gradient(
-    to bottom right,
-    ${props => props.theme.colorPrimary},
-    ${props => props.theme.colorGreyDark1}
-  ); */
   box-shadow: 0 0 10px ${props => props.theme.colorPrimaryLight};
   border-radius: 10px;
   color: #fff;
