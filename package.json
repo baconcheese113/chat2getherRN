@@ -1,6 +1,6 @@
 {
   "name": "ChatAppRN",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -29,6 +29,7 @@
     "graphql-tag": "^2.10.1",
     "react": "16.9.0",
     "react-native": "0.61.5",
+    "react-native-code-push": "^6.0.0",
     "react-native-color-matrix-image-filters": "^5.2.2",
     "react-native-draggable": "^3.0.0",
     "react-native-html-parser": "0.0.5",

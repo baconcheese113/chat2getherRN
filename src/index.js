@@ -5,6 +5,7 @@
 import React from 'react';
 import {AppRegistry} from 'react-native';
 import {ThemeProvider} from 'styled-components';
+import codePush from 'react-native-code-push';
 import {ApolloClient} from 'apollo-client';
 import {InMemoryCache} from 'apollo-cache-inmemory';
 import {createHttpLink} from 'apollo-link-http';
@@ -47,4 +48,6 @@ const Root = () => (
   </ApolloProvider>
 );
 
-AppRegistry.registerComponent(appName, () => Root);
+const codePushOptions = {checkFrequency: codePush.CheckFrequency.ON_APP_RESUME};
+
+AppRegistry.registerComponent(appName, () => codePush(codePushOptions)(Root));

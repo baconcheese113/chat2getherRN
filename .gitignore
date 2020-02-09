@@ -28,6 +28,7 @@ build/
 .gradle
 local.properties
 *.iml
+.project
 
 # node.js
 #
@@ -43,6 +44,7 @@ buck-out/
 \.buckd/
 *.keystore
 !debug.keystore
+deployment_cert.der
 
 # fastlane
 #
